@@ -1,0 +1,29 @@
+± |step3-coroutine-clean U:7 ✗| → wrk -t4 -c128 -d30s http://localhost:8080/ --latency
+Running 30s test @ http://localhost:8080/
+  4 threads and 128 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    69.14ms   60.26ms 612.53ms   69.90%
+    Req/Sec   521.38    117.33     0.88k    68.67%
+  Latency Distribution
+     50%   65.12ms
+     75%   98.43ms
+     90%  135.15ms
+     99%  271.40ms
+  61599 requests in 30.07s, 207.43MB read
+Requests/sec:   2048.34
+Transfer/sec:      6.90MB
+
+± |step3-coroutine ✓| → wrk -t4 -c128 -d30s http://localhost:8080/ --latency
+Running 30s test @ http://localhost:8080/
+  4 threads and 128 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   183.11ms   75.86ms   1.21s    80.52%
+    Req/Sec   178.71     47.00   292.00     68.46%
+  Latency Distribution
+     50%  171.13ms
+     75%  213.95ms
+     90%  261.91ms
+     99%  443.45ms
+  21298 requests in 30.07s, 71.72MB read
+Requests/sec:    708.20
+Transfer/sec:      2.38MB
