@@ -7,12 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
-import org.springframework.data.mongodb.repository.config.EnableCoroutineMongoRepositories
-import org.springframework.kotlin.experimental.coroutine.EnableCoroutine
 
 @SpringBootApplication
-@EnableCoroutine
-@EnableCoroutineMongoRepositories
 class Application {
 
     @Bean

@@ -16,12 +16,12 @@
 package io.spring.deepdive.repository
 
 import io.spring.deepdive.model.Article
-import org.springframework.data.mongodb.repository.CoroutineMongoRepository
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 
 import org.springframework.stereotype.Repository
+import reactor.core.publisher.Flux
 
 @Repository
-interface ArticleRepository : CoroutineMongoRepository<Article, String> {
-
-    suspend fun findAllByOrderByAddedAtDesc(): List<Article>
+interface ArticleRepository : ReactiveMongoRepository<Article, String> {
+    fun findAllByOrderByAddedAtDesc(): Flux<Article>
 }

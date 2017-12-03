@@ -23,6 +23,7 @@ import io.spring.deepdive.model.Article
 import io.spring.deepdive.model.User
 import io.spring.deepdive.repository.ArticleRepository
 import io.spring.deepdive.repository.UserRepository
+import kotlinx.coroutines.experimental.reactive.consumeEach
 import kotlinx.coroutines.experimental.runBlocking
 
 import org.springframework.boot.CommandLineRunner
@@ -44,7 +45,10 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
         val juergen = User("springjuergen", "Juergen", "Hoeller")
         val violeta = User("violetagg", "Violeta", "Georgieva", "All views are my own!")
 
-        userRepository.saveAll(Arrays.asList(brian, mark, arjen, rossen, sam, seb, simon, stephanem, stephanen, juergen, violeta))
+        userRepository
+                .saveAll(Arrays.asList(brian, mark, arjen, rossen, sam, seb, simon, stephanem, stephanen, juergen, violeta))
+                .subscribe()
+
 
         val reactorTitle = "Reactor Bismuth is out"
         val reactorArticle = Article(
@@ -88,6 +92,8 @@ class DatabaseInitializer(private val userRepository: UserRepository, private va
                 LocalDateTime.of(2017, 1, 4, 9, 0)
         )
 
-        articleRepository.saveAll(Arrays.asList(reactorArticle, spring5Article, springKotlinArticle))
+        articleRepository
+                .saveAll(Arrays.asList(reactorArticle, spring5Article, springKotlinArticle))
+                .subscribe()
     }
 }

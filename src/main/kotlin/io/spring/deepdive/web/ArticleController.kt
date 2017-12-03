@@ -25,11 +25,11 @@ class ArticleController(private val repository: ArticleRepository,
                         private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
-    suspend fun findAll() = repository.findAllByOrderByAddedAtDesc()
+    fun findAll() = repository.findAllByOrderByAddedAtDesc()
 
     @GetMapping("/{slug}")
-    suspend fun findOne(@PathVariable slug: String, @RequestParam converter: String?) = when (converter) {
-        "markdown" -> repository.findById(slug)!!.let { it.copy(
+    fun findOne(@PathVariable slug: String, @RequestParam converter: String?) = when (converter) {
+        "markdown" -> repository.findById(slug).map { it.copy(
                 headline = markdownConverter.invoke(it.headline),
                 content = markdownConverter.invoke(it.content)) }
         null -> repository.findById(slug)

@@ -27,9 +27,8 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(private val repository: UserRepository) {
 
     @GetMapping("/")
-    suspend fun findAll() = repository.findAll()
+    fun findAll() = repository.findAll()
 
     @GetMapping("/{login}")
-    suspend fun findOne(@PathVariable login: String) = repository.findById(login)
-
+    fun findOne(@PathVariable login: String) = repository.findById(login)
 }

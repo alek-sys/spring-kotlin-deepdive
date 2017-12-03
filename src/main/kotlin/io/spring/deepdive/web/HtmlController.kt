@@ -16,31 +16,39 @@
 package io.spring.deepdive.web
 
 import io.spring.deepdive.MarkdownConverter
+import io.spring.deepdive.model.Article
 import io.spring.deepdive.repository.ArticleRepository
+import kotlinx.coroutines.experimental.reactive.consumeEach
+import kotlinx.coroutines.experimental.reactor.mono
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import reactor.core.publisher.Mono
 
 @Controller
 class HtmlController(private val repository: ArticleRepository,
                      private val markdownConverter: MarkdownConverter) {
 
     @GetMapping("/")
-    suspend fun blog(model: Model): String {
-        val posts = repository.findAllByOrderByAddedAtDesc().map { it.toDto(markdownConverter) }
+    fun blog(model: Model) = mono {
+        val articles = arrayListOf<ArticleDto>()
+        repository.findAllByOrderByAddedAtDesc().consumeEach {
+            articles += it.toDto(markdownConverter)
+        }
+
         model["title"] = "Blog"
-        model["articles"] = posts
-        return "blog"
+        model["articles"] = articles
+        "blog"
     }
 
     @GetMapping("/article/{slug}")
-    suspend fun article(@PathVariable slug: String, model: Model): String {
-        val post = repository.findById(slug)!!
-        model["article"] = post.toDto(markdownConverter)
-        return "article"
+    fun article(@PathVariable slug: String, model: Model): Mono<String> {
+        return repository.findById(slug).map { post ->
+            model["article"] = post.toDto(markdownConverter)
+            "article"
+        }
     }
-
 }
