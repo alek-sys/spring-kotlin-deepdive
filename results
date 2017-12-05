@@ -27,3 +27,18 @@ Running 30s test @ http://localhost:8080/
   21298 requests in 30.07s, 71.72MB read
 Requests/sec:    708.20
 Transfer/sec:      2.38MB
+
+± |step3 ✓| → wrk -t4 -c128 -d30s http://localhost:8080/ --latency
+Running 30s test @ http://localhost:8080/
+  4 threads and 128 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   106.41ms   84.03ms 781.17ms   78.18%
+    Req/Sec   336.48     92.47     0.86k    68.35%
+  Latency Distribution
+     50%   68.95ms
+     75%  156.19ms
+     90%  225.35ms
+     99%  370.27ms
+  40055 requests in 30.10s, 138.78MB read
+Requests/sec:   1330.83
+Transfer/sec:      4.61MB
